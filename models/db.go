@@ -10,7 +10,7 @@ import(
 
 const(
   USER = "postgres"
-  PASS = "16825ds5230"
+  PASS = "yourpassword"
   DBNAME = "test"
 )
 
