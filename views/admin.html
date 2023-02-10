@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Top navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              
+              <a href="/logout" class="btn btn-primary">Log out</a>
+            </form>
+          </div>
+        </div>
+      </nav>
+      
+      <main class="container">
+        <a href="/create-task"><button type="button" class="btn btn-success">Add</button></a>
+        <div class="bg-light p-5 rounded">
+          {{range .TodoList}} 
+                <div class="card mb-3">
+                    <div class="card-body">
+                      <div class="form-group form-check">
+                        <input type="checkbox" {{if .Status}}checked{{end}}  onchange="updateStatus(this, {{.Id}})" class="form-check-input" >
+                        
+                        <script>
+                            function updateStatus(checkbox, id) {
+                              if (checkbox.checked) {
+                                window.location.href = '/checked?taskId=' + id;
+                              } else {
+                                window.location.href = '/unchecked?taskId=' + id;
+                              }
+                            }
+                          </script>
+
+
+                        <label class="form-check-label" for="">{{.Message}}</label>
+                      </div>
+                      <div class="float-end">
+                        <a href="/task-edit?taskId={{.Id}}"><button type="button" class="btn btn-primary btn-sm float-right">Edit</button></a>
+                        <a href="/task-delete?taskId={{.Id}}"><button type="button" class="btn btn-danger btn-sm float-right mr-2">Delete</button></a>
+                      </div>
+                      <div class="text-muted small mt-2">Updated: {{.Updated}} - Created: {{.Created}}</div>
+                    </div>
+                  </div>
+          {{end}}
+        </div>
+      </main>
+</body>
+</html>
+
+<script>
+    var checkbox = document.getElementById("myCheckbox");
+    checkbox.addEventListener("change", function() {
+      if (checkbox.checked) {
+        window.location.replace("/checked?taskId={{.Id}}");
+      } else {
+        window.location.replace("/unchecked?taskId={{.Id}}");
+      }
+    });
+  </script>
